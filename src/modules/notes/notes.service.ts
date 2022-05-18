@@ -8,7 +8,7 @@ export class NotesService {
   constructor(private readonly repository: NotesRepository) {}
 
   create(createNoteDto: CreateNoteDto) {
-    return this.repository.save();
+    return this.repository.create(createNoteDto);
   }
 
   findAll() {
@@ -19,8 +19,8 @@ export class NotesService {
     return `This action returns a #${id} note`;
   }
 
-  update(id: number, updateNoteDto: UpdateNoteDto) {
-    return `This action updates a #${id} note`;
+  update(id: string, updateNoteDto: UpdateNoteDto) {
+    return this.repository.update(id, updateNoteDto);
   }
 
   remove(id: number) {

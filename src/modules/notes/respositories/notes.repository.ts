@@ -3,6 +3,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 
 import { Note } from '../schemas/note.schema';
+import { CreateNoteDto } from '../dto/create-note.dto';
+import { UpdateNoteDto } from '../dto/update-note.dto';
 
 @Injectable()
 export class NotesRepository {
@@ -11,16 +13,15 @@ export class NotesRepository {
     private readonly model: Model<Note>,
   ) {}
 
-  save() {
-    this.model.create({
-      content: 'teste',
-      created_at: new Date(),
-      updated_at: null,
-      display_order: 1,
-    });
+  async create(noteDto: CreateNoteDto) {
+    this.model.create(noteDto);
   }
 
-  findAll() {
+  async findAll() {
     return this.model.find().exec();
+  }
+
+  async update(id: string, noteDto: UpdateNoteDto) {
+    this.model.findByIdAndUpdate(id, noteDto);
   }
 }

@@ -1,5 +1,8 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import * as moment from 'moment-timezone';
 import { Document } from 'mongoose';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+
+moment.locale('pt-br');
 
 export type NoteDocument = Note & Document;
 
@@ -11,11 +14,21 @@ export class Note {
   @Prop()
   display_order: number;
 
-  @Prop()
+  @Prop({
+    default: moment().utc().toDate(),
+    // .tz('America/Sao_Paulo'),
+  })
   created_at: Date;
 
-  @Prop()
+  @Prop({
+    default: null,
+  })
   updated_at: Date;
+
+  @Prop({
+    default: null,
+  })
+  deleted_at: Date;
 }
 
 export const NoteSchema = SchemaFactory.createForClass(Note);
